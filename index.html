@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title id="title-el"
+  data-en="SoundSentry · Focus Sound Monitor"
+  data-zh="SoundSentry · 专注环境音监测">SoundSentry · Focus Sound Monitor</title>
+
+<meta name="description" id="meta-desc"
+  data-en="SoundSentry keeps an ear on your home while you focus with noise-canceling headphones. It uses iOS Sound Analysis to detect selected sounds like baby crying, dog barking, knocking, and more, then sends instant local notifications."
+  data-zh="SoundSentry 让你戴着降噪耳机专注时也不会错过家里的关键动静。基于 iOS 声音分析能力，识别你关注的声音（如婴儿哭声、狗叫、敲门等），并通过本地通知即时提醒。"
+  content="SoundSentry keeps an ear on your home while you focus with noise-canceling headphones. It uses iOS Sound Analysis to detect selected sounds like baby crying, dog barking, knocking, and more, then sends instant local notifications.">
+
+<link rel="icon" href="soundsentry_128.png">
+
+<style>
+:root{
+  /* SoundSentry 深色主题 */
+  --bg:#050712; 
+  --surface:#111525; 
+  --text:#F5F7FF; 
+  --text2:#B9C3DA;
+
+  --accent:#6EE7FF;     /* 冷色提示：听觉/安全 */
+  --accent2:#4F8CFF;
+
+  --chip:#1B2238; 
+  --chip2:#1A2036;
+}
+*{box-sizing:border-box}
+html,body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Helvetica, Arial, 
+  Noto Sans, "PingFang SC", "Hiragino Sans GB", "Microsoft Yahei", sans-serif;
+}
+a{color:var(--accent);text-decoration:none}
+.container{max-width:1100px;margin:0 auto;padding:40px 24px}
+nav{display:flex;justify-content:space-between;align-items:center;gap:16px}
+.brand{display:flex;align-items:center;gap:12px;font-weight:700}
+.brand img.icon{width:40px;height:40px;border-radius:12px}
+.lang-switch{display:flex;gap:8px;background:var(--surface);border-radius:12px;padding:6px}
+.lang-switch button{all:unset;cursor:pointer;padding:6px 14px;border-radius:10px;color:var(--text2);font-weight:600}
+.lang-switch button.active{background:var(--accent);color:#0B1220}
+.nav-links{display:flex;gap:18px;align-items:center}
+.nav-links a{color:var(--text2);font-weight:600}
+.nav-links a:hover{color:var(--text)}
+
+.hero{display:grid;grid-template-columns:1.1fr 0.9fr;gap:36px;align-items:center;margin-top:40px}
+.hero h1{font-size:40px;line-height:1.1;margin:0 0 16px}
+.hero p.lead{color:var(--text2);font-size:18px;margin:0 0 24px}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.button{
+  display:inline-flex;align-items:center;gap:10px;
+  background:linear-gradient(180deg,var(--accent),var(--accent2));
+  color:#0B1220;font-weight:700;padding:14px 22px;border-radius:14px;
+  box-shadow:0 10px 30px rgba(79,140,255,.25);
+} 
+.button.ghost{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,.15)}
+.card{background:var(--surface);border-radius:20px;padding:24px;box-shadow:0 10px 30px rgba(0,0,0,.25);} 
+.section{margin-top:80px}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+.grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px}
+.tag{
+  display:inline-block;padding:6px 10px;border-radius:8px;font-size:13px;
+  background:rgba(110,231,255,.16);color:#CFF8FF
+}
+.sample{width:100%;border-radius:18px;box-shadow:0 12px 40px rgba(0,0,0,.35);background:#0f1118;aspect-ratio:9/19.5;object-fit:cover}
+.footer{margin-top:80px;color:var(--text2);font-size:14px;border-top:1px solid rgba(255,255,255,.08);padding:32px 0}
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+.gallery img{
+  width:100%;border-radius:18px;box-shadow:0 12px 40px rgba(0,0,0,.35);
+  background:#0f1118;aspect-ratio:9/19.5;object-fit:cover
+}
+/* 竖屏图比例 */
+.gallery img.portrait { aspect-ratio: 9 / 19.5; }
+/* 横屏图比例 (iPad & 平板横屏) */
+.gallery img.landscape { aspect-ratio: 16 / 10; }
+@media (max-width:960px){ .hero{grid-template-columns:1fr} }
+
+/* 英雄区：SoundSentry UI 示意卡片 */
+.pn-card{border-radius:18px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.35);background:#0F1528}
+.pn-top{
+  padding:22px 22px 10px;color:#CFF8FF;font-weight:800;letter-spacing:.04em
+}
+.pn-body{
+  background:
+    radial-gradient(circle at 10% 0%,rgba(110,231,255,.35),rgba(110,231,255,0) 55%),
+    linear-gradient(180deg,#151A33,#070B18);
+  padding:22px
+}
+.pn-row{display:flex;align-items:center;gap:10px;margin:10px 0}
+.pn-avatar{
+  width:34px;height:34px;border-radius:50%;
+  background:radial-gradient(circle at 30% 0%,#B9F6FF,#4F8CFF);
+  opacity:.9
+}
+.pn-line{
+  height:10px;border-radius:6px;background:rgba(255,255,255,.10);flex:1
+}
+.pn-line.bold{height:14px;background:rgba(255,255,255,.16);width:70%}
+.pn-chip{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:6px 10px;border-radius:10px;background:rgba(255,255,255,.06);
+  color:var(--text2);font-size:12px;font-weight:600
+}
+.pn-dots{display:flex;gap:6px}
+.pn-dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.pn-bar{background:#0B0F1E;color:#E6F7FF;text-align:center;padding:12px;font-weight:700}
+</style>
+</head>
+
+<body>
+<div class="container">
+  <nav>
+    <div class="brand">
+      <!-- 替换为 SoundSentry 图标 -->
+      <img class="icon" src="soundsentry_128.png" alt="SoundSentry icon">
+      <span>
+        <span data-en="SoundSentry" data-zh="SoundSentry"></span> ·
+        <span data-en="Focus Sound Monitor" data-zh="专注环境音监测"></span>
+      </span>
+    </div>
+
+    <div class="nav-links">
+      <a href="#privacy" data-en="Privacy" data-zh="隐私"></a>
+      <a href="#support" data-en="Support" data-zh="支持"></a>
+    </div>
+
+    <div class="lang-switch">
+      <button id="btn-en" class="active">English</button>
+      <button id="btn-zh">中文</button>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div>
+      <h1
+        data-en="Stay focused. Don’t miss important sounds."
+        data-zh="专注工作，也不错过家里的关键声音"></h1>
+
+      <p class="lead"
+         data-en="SoundSentry uses iOS Sound Analysis to detect selected sounds like baby crying, dog barking, knocking, and more. When a target sound is detected, you’ll receive an instant local notification—even with noise-canceling headphones on."
+         data-zh="SoundSentry 基于 iOS Sound Analysis（声音分析）识别你关注的环境音：婴儿哭声、狗叫、敲门等。检测到目标声音后立刻发送本地通知，即使戴着降噪耳机也能第一时间收到提醒。"></p>
+
+      <div class="cta">
+        <a href="#" class="button" data-en="Download on the App Store" data-zh="在 App Store 下载"></a>
+        <a href="#features" class="button ghost" data-en="See how it works" data-zh="了解功能"></a>
+      </div>
+
+      <div style="margin-top:24px;color:var(--text2)">
+        <span>• </span>
+        <span
+          data-en="On-device sound detection · Background monitoring · Instant local notifications · No model training"
+          data-zh="本地声音识别 · 后台监测 · 即时本地通知 · 无需训练模型"></span>
+      </div>
+    </div>
+
+    <div>
+      <!-- 英雄示意卡：SoundSentry UI -->
+      <div class="pn-card">
+        <div class="pn-top" data-en="SoundSentry · Monitoring" data-zh="SoundSentry · 监测中"></div>
+        <div class="pn-body">
+          <div class="pn-row">
+            <div class="pn-avatar"></div>
+            <div class="pn-line bold"></div>
+          </div>
+
+          <div class="pn-row">
+            <span class="pn-chip">
+              <span data-en="Selected: Baby Cry" data-zh="已选：婴儿哭声"></span>
+            </span>
+            <span class="pn-chip">
+              <span data-en="Selected: Dog Bark" data-zh="已选：狗叫"></span>
+            </span>
+          </div>
+
+          <div class="pn-row">
+            <div class="pn-line" style="width:92%"></div>
+          </div>
+
+          <div class="pn-row">
+            <span class="pn-chip">
+              <span data-en="Knocking & more" data-zh="敲门等更多"></span>
+            </span>
+            <span class="pn-chip">
+              <span data-en="Runs in background" data-zh="后台持续运行"></span>
+            </span>
+          </div>
+
+          <div class="pn-row">
+            <span class="pn-chip">
+              <span data-en="Alert: Local Notification" data-zh="提醒：本地通知"></span>
+              <span class="pn-dots"><span class="pn-dot"></span><span class="pn-dot"></span></span>
+            </span>
+            <span class="pn-chip">
+              <span data-en="Privacy-first" data-zh="隐私优先"></span>
+            </span>
+          </div>
+        </div>
+
+        <div class="pn-bar"
+             data-en="Detect → Notify instantly"
+             data-zh="检测到目标声音 → 立即提醒"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="features" class="section">
+    <h2 data-en="Key features" data-zh="核心功能"></h2>
+    <div class="grid-3" style="margin-top:24px">
+
+      <!-- 声音识别 -->
+      <div class="card">
+        <div class="tag" data-en="Detection" data-zh="识别"></div>
+        <h3 style="margin:12px 0"
+            data-en="Recognize common sounds"
+            data-zh="识别常见环境音"></h3>
+        <p class="text2"
+           data-en="Powered by iOS Sound Analysis. Detect sounds like baby crying, dog barking, knocking, and more (availability depends on system support)."
+           data-zh="基于 iOS 声音分析能力，识别婴儿哭声、狗叫、敲门等（具体类别以系统支持为准）。"></p>
+      </div>
+
+      <!-- 自定义关注 -->
+      <div class="card">
+        <div class="tag" data-en="Customize" data-zh="自定义"></div>
+        <h3 style="margin:12px 0"
+            data-en="Choose what matters"
+            data-zh="选择你关心的声音"></h3>
+        <p class="text2"
+           data-en="Select the sound categories you want to monitor so you only get alerts for what you care about."
+           data-zh="自由选择需要监测的声音类别，只对你关心的声音触发提醒。"></p>
+      </div>
+
+      <!-- 后台监测 -->
+      <div class="card">
+        <div class="tag" data-en="Background" data-zh="后台"></div>
+        <h3 style="margin:12px 0"
+            data-en="Background monitoring"
+            data-zh="后台持续监测"></h3>
+        <p class="text2"
+           data-en="Keep monitoring while you work or study. Designed for focus sessions with headphones on (requires permissions/settings)."
+           data-zh="工作/学习时持续监测，专注不被打断（需开启相关权限/系统设置）。"></p>
+      </div>
+
+      <!-- 即时提醒 -->
+      <div class="card">
+        <div class="tag" data-en="Alerts" data-zh="提醒"></div>
+        <h3 style="margin:12px 0"
+            data-en="Instant local notifications"
+            data-zh="即时本地通知"></h3>
+        <p class="text2"
+           data-en="Get notified immediately when a target sound is detected, even if you can’t hear it with noise-canceling headphones."
+           data-zh="检测到目标声音立即本地通知，让你戴降噪耳机也能第一时间响应。"></p>
+      </div>
+
+      <!-- 使用场景 -->
+      <div class="card">
+        <div class="tag" data-en="Use cases" data-zh="场景"></div>
+        <h3 style="margin:12px 0"
+            data-en="Great for home"
+            data-zh="适合居家场景"></h3>
+        <p class="text2"
+           data-en="Work/study at home, baby care, pet care, or simply staying aware of what’s happening around you."
+           data-zh="在家办公/学习、婴儿看护、宠物看护，或需要随时掌握家中动静的场景。"></p>
+      </div>
+
+      <!-- 隐私与权限 -->
+      <div class="card">
+        <div class="tag" style="background:rgba(255,255,255,.12);color:#fff"
+             data-en="Privacy" data-zh="隐私"></div>
+        <h3 style="margin:12px 0"
+            data-en="Privacy-first"
+            data-zh="隐私优先"></h3>
+        <p class="text2"
+           data-en="Microphone access is used only for sound detection. Alerts are delivered via local notifications. No model training required."
+           data-zh="麦克风仅用于声音识别；提醒通过本地通知触达；无需训练声音模型。"></p>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 data-en="Screenshots" data-zh="界面预览"></h2>
+    <p class="lead"
+       data-en="Replace the images below with real screenshots from SoundSentry."
+       data-zh="将下方占位图替换为 SoundSentry 的真实截图。"></p>
+    <div class="gallery" style="margin-top:16px">
+      <img class="landscape" src="ss_en_1.png" data-en-src="ss_en_1.png" data-zh-src="ss_zh_1.png" alt="SoundSentry screenshot 1">
+      <img class="landscape" src="ss_en_2.png" data-en-src="ss_en_2.png" data-zh-src="ss_zh_2.png" alt="SoundSentry screenshot 2">
+      <img class="landscape" src="ss_en_3.png" data-en-src="ss_en_3.png" data-zh-src="ss_zh_3.png" alt="SoundSentry screenshot 3">
+      <img class="landscape" src="ss_en_4.png" data-en-src="ss_en_4.png" data-zh-src="ss_zh_4.png" alt="SoundSentry screenshot 4">
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="grid-2">
+      <div class="card">
+        <h2 id="privacy" data-en="Privacy" data-zh="隐私"></h2>
+        <p class="text2"
+           data-en="SoundSentry is designed with privacy in mind."
+           data-zh="SoundSentry 以隐私优先为设计原则。"></p>
+        <ul style="margin:12px 0 0 18px; color: var(--text2); line-height:1.7">
+          <li
+            data-en="No account required. Start monitoring right away."
+            data-zh="无需注册账号，打开即可开始监测。"></li>
+          <li
+            data-en="Microphone access is used to listen and classify sounds for detection."
+            data-zh="麦克风权限用于监听并识别环境音，以实现目标声音检测。"></li>
+          <li
+            data-en="Alerts are delivered via local notifications on your device."
+            data-zh="提醒通过设备本地通知发送。"></li>
+          <li
+            data-en="Detection accuracy depends on noise, distance, and device placement."
+            data-zh="识别效果受环境噪声、距离与设备摆放位置影响。"></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2 id="support" data-en="Support" data-zh="支持"></h2>
+        <p class="text2"
+           data-en="Questions or feedback about SoundSentry? Email us."
+           data-zh="关于 SoundSentry 的问题或建议，欢迎邮件联系。"></p>
+        <p><a href="mailto:freesysck@outlook.com">freesysck@outlook.com</a></p>
+        <p>
+          <a href="#" target="_blank" rel="noopener"
+             data-en="Marketing site" data-zh="营销网站"></a><br>
+          <a href="#" target="_blank" rel="noopener"
+             data-en="Privacy policy" data-zh="隐私政策"></a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="grid-2">
+      <div>
+        <strong>
+          <span data-en="SoundSentry" data-zh="SoundSentry"></span> ·
+          <span data-en="Focus Sound Monitor" data-zh="专注环境音监测"></span>
+        </strong><br>
+        <span
+          data-en="© 2025 SoundSentry. All rights reserved."
+          data-zh="© 2025 SoundSentry。保留所有权利。"></span>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script>
+function swapLangImages(lang){
+  document.querySelectorAll("img[data-en-src]").forEach(img=>{
+    const src = img.getAttribute(lang==="zh" ? "data-zh-src" : "data-en-src");
+    if(src) img.setAttribute("src", src);
+  });
+}
+function setLang(lang){
+  document.querySelectorAll("[data-en]").forEach(el=>{
+    const text = el.getAttribute(lang === "zh" ? "data-zh" : "data-en");
+    if(text!==null){ el.textContent = text; }
+  });
+  const titleEl = document.getElementById("title-el");
+  if(titleEl){
+    const t = titleEl.getAttribute(lang === "zh" ? "data-zh" : "data-en");
+    if(t) document.title = t;
+  }
+  const metaDesc = document.getElementById("meta-desc");
+  if(metaDesc){
+    const d = metaDesc.getAttribute(lang === "zh" ? "data-zh" : "data-en");
+    if(d) metaDesc.setAttribute("content", d);
+  }
+  swapLangImages(lang);
+  document.getElementById("btn-en").classList.toggle("active", lang==="en");
+  document.getElementById("btn-zh").classList.toggle("active", lang==="zh");
+  localStorage.setItem("SoundSentry-lang", lang);
+}
+document.getElementById("btn-en").onclick=()=>setLang("en");
+document.getElementById("btn-zh").onclick=()=>setLang("zh");
+const saved = localStorage.getItem("SoundSentry-lang") || (navigator.language.startsWith("zh")?"zh":"en");
+setLang(saved);
+</script>
+
+</body>
+</html>
